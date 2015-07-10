@@ -1,5 +1,4 @@
 var domReady = require('domready');
-var THREE = require('three/three.min');
 var dat = require('dat-gui');
 
 domReady(function(){
