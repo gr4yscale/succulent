@@ -13,7 +13,7 @@ domReady(function(){
     boxThickness : 1.0,
     hueRange : 0.35,
     hueOffset : 0.3,
-    twistSpeed : 0.06,
+    twistSpeed : 0.02,
     rotationSpeed : 0.00,
     lightYPosition : 20
   };
@@ -51,7 +51,7 @@ domReady(function(){
 
   // cubes
   var cubes = [];
-  var numCubes = 20;
+  var numCubes = 8;
 
   for ( i = 1; i < numCubes; i ++ ) {
     var width = 24 - ((24 / numCubes) * i);

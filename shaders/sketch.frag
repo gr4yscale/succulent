@@ -6,6 +6,6 @@ uniform float iGlobalTime;
 varying vec2 vUv;
 
 void main() {
-  float color = cnoise2(vUv.yx * (cos(iGlobalTime * 0.1) * 50.)) * 2.0;
-  gl_FragColor = vec4( color * 2.0 * sin(vUv.x * 3.0), sin(vUv.x), cos(vUv.x * color * cos(iGlobalTime)) - 0.25, 1. );
+  float color = cnoise2(vUv.yx * (cos(iGlobalTime * 0.6) * 80.)) * 2.0;
+  gl_FragColor = vec4( sin(vUv.y * 3.0), (sqrt( vUv.x)) * cos(color), cos(vUv.x * cos(iGlobalTime)) + (color), 1. );
 }
