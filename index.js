@@ -51,7 +51,7 @@ domReady(function(){
 
   // cubes
   var cubes = [];
-  var numCubes = 8;
+  var numCubes = 300;
 
   for ( i = 1; i < numCubes; i ++ ) {
     var width = 24 - ((24 / numCubes) * i);
