@@ -13,7 +13,7 @@ domReady(function(){
     boxThickness : 1.0,
     hueRange : 0.35,
     hueOffset : 0.3,
-    twistSpeed : 0.02,
+    twistSpeed : 0.0,
     rotationSpeed : 0.00,
     lightYPosition : 20
   };
@@ -33,7 +33,7 @@ domReady(function(){
   var datgui = new dat.GUI();
 
   var light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
-  light.position.set(10, 20, -20);
+  light.position.set(-10, -10, -10);
   app.scene.add(light);
 
 
@@ -46,24 +46,90 @@ domReady(function(){
         USE_MAP: ''
       },
       vertexShader : glslify(__dirname + '/shaders/sketch.vert'),
-      fragmentShader : glslify(__dirname + '/shaders/sketch.frag')
+      fragmentShader : glslify(__dirname + '/shaders/sketch.frag'),
+      side: THREE.DoubleSide
   });
 
-  // cubes
-  var cubes = [];
-  var numCubes = 300;
+  var paramFunction1 = function (u, v) {
+            var u = (u * Math.PI) - Math.PI;
+            // var v = (v * Math.PI / 2.0) - Math.PI;
+            var v = (v * Math.PI) - Math.PI;
 
-  for ( i = 1; i < numCubes; i ++ ) {
-    var width = 24 - ((24 / numCubes) * i);
+            // var u = (u * 2 * Math.PI) - Math.PI;
+            // var v = (v * 2 * Math.PI) - Math.PI;
 
-    var geometry = new THREE.BoxGeometry( width, 0.1, width);
-    var cube = new THREE.Mesh( geometry, shaderMaterial );
+            // var x = Math.sin(u) * Math.sin(v);
+            var y = Math.cos(v) * Math.sin(v) + 0.5;
+            var x = -Math.sin(u) * Math.sin(v);
+            // var y = Math.pow(v, 2.0) * 0.2;
 
-    cube.position.y = 0.2 * i;
+            // var x = -Math.sin(u) * Math.sin(v) + (v * 0.25);
+            // var y = Math.pow(v, 2.0) * 0.2;
 
-    app.scene.add(cube);
-    cubes.push(cube);
-  }
+            var y = Math.cos(v) * Math.sin(v) + 0.5;
+            var x = -Math.sin(u) * Math.sin(v);
+            var z = -Math.cos(v) + 1.0;
+
+            // var y = Math.cos(v) * Math.sin(v) + 0.5;
+            // var x = -Math.sin(u) * Math.sin(v);
+            // var z = -Math.cos(v) + 1.0;
+
+            return new THREE.Vector3(x, y, z);
+        };
+
+  var geom = new THREE.ParametricGeometry(paramFunction1, 100, 100);
+
+
+  var material = new THREE.MeshLambertMaterial({
+                  color: 0xFF333FF,
+                  side: THREE.DoubleSide,
+                  shading: THREE.SmoothShading
+                });
+
+  var mesh = new THREE.Mesh(geom, shaderMaterial);
+  mesh.position.x = 0;
+  mesh.position.y = 0;
+  mesh.position.z = 0;
+
+  app.camera.position.x = 0;
+  app.camera.position.y = 0;
+  app.camera.position.z = -1;
+  // mesh.position.x = 0.2;
+
+  var helper = new THREE.BoundingBoxHelper(mesh, 0xff0000);
+  helper.update();
+  app.scene.add(helper);
+  
+  app.scene.add(mesh);
+
+
+  var sphereGeom = new THREE.SphereGeometry(0.01, 10, 10);
+  var sphereMesh = new THREE.Mesh(sphereGeom, material);
+
+  app.scene.add(sphereMesh);
+
+
+  // // cubes
+  // var cubes = [];
+  // var numCubes = 10;
+
+  // for ( i = 1; i < numCubes; i ++ ) {
+  //   var width = 24 - ((24 / numCubes) * i);
+
+  //   var geometry = new THREE.BoxGeometry( width, 0.1, width);
+  //   var material = new THREE.MeshLambertMaterial({
+  //                   color: 0xcc3333a,
+  //                   side: THREE.DoubleSide,
+  //                   shading: THREE.SmoothShading
+  //                 });
+
+  //   var cube = new THREE.Mesh( geometry, material );
+
+  //   cube.position.y = 0.2 * i;
+
+  //   app.scene.add(cube);
+  //   cubes.push(cube);
+  // }
 
  
   // render loop
@@ -74,21 +140,21 @@ domReady(function(){
 
     shaderMaterial.uniforms.iGlobalTime.value = tickCounter;
 
-    for (var i = (numCubes - 1); i > 0; i-- ) {
+    // for (var i = (numCubes - 1); i > 0; i-- ) {
 
-      var cube = cubes[i-1];
+    //   var cube = cubes[i-1];
 
-      cube.rotation.y += ((Math.sin(tickCounter) * (i / numCubes) * params.twistSpeed) - params.rotationSpeed);
-      cube.scale.x = params.width;
-      cube.scale.z = params.width;
-      cube.scale.y = params.boxThickness;
-      cube.position.y = params.height * i;
+    //   cube.rotation.y += ((Math.sin(tickCounter) * (i / numCubes) * params.twistSpeed) - params.rotationSpeed);
+    //   cube.scale.x = params.width;
+    //   cube.scale.z = params.width;
+    //   cube.scale.y = params.boxThickness;
+    //   cube.position.y = params.height * i;
 
-      // colors!
-      //var hue = (i / numCubes) * params.hueRange - params.hueOffset;
-      //cube.material.color.setHSL(hue, 1.0, 0.5);
-      cube.material.opacity = params.opacity;
-    }
+    //   // colors!
+    //   //var hue = (i / numCubes) * params.hueRange - params.hueOffset;
+    //   //cube.material.color.setHSL(hue, 1.0, 0.5);
+    //   cube.material.opacity = params.opacity;
+    // }
 
     light.position.set( 0, params.lightYPosition, 0);
   });
@@ -103,7 +169,7 @@ domReady(function(){
   datgui.add(params, 'boxThickness', 0.01, 10);
   datgui.add(params, 'hueRange', 0.0, 1);
   datgui.add(params, 'hueOffset', 0, 1).step(0.01);
-  datgui.add(params, 'twistSpeed', 0.0, 0.8);
+  datgui.add(params, 'twistSpeed', 0.0, 0.08);
   datgui.add(params, 'rotationSpeed', 0.0, 0.1).step(0.01);
   datgui.add(params, 'lightYPosition', 0.01, 60);
 
