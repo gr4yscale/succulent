@@ -33,11 +33,13 @@ domReady(function(){
   var datgui = new dat.GUI();
 
   var light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
-  light.position.set(-10, -10, -10);
+  light.position.set(0, 40, 80);
   app.scene.add(light);
 
   var petals = [];
-  var petalCount = 8;
+  var petalCount = 40;
+  var curveAmount = 0.4;
+  var layers = 4.0;
 
   // shader
   var shaderMaterial = new THREE.ShaderMaterial({
@@ -54,11 +56,10 @@ domReady(function(){
 
 
   var petalFunc = function (u, v) {
-            var petalLength = 1.6;
+            var petalLength = 1.2;
             var petalWidth = 0.6;
-            var curveAmount = 0.5;
             var curve = Math.pow(u * 4.0, 0.3) * curveAmount; // * (Math.pow(u, 0.9));
-            var petalOutline = (Math.sin((u - 1.5) * 2.0) * Math.sin((v - 0.5) * Math.sin((u + 2.14))) * petalLength);
+            var petalOutline = (Math.sin((u - 1.5) * 2.0) * Math.sin((v - 0.5) * Math.sin((u + 2.14))) * 2.0);
             return new THREE.Vector3(petalOutline * petalWidth, u * petalLength, curve);
         };
 
@@ -70,8 +71,10 @@ domReady(function(){
 
   for (var i = 0; i < petalCount; i++) {
     var j = i / petalCount;
+    var rotationAmount = j * layers;
+    curveAmount = 0.1 + (Math.pow(j, 2.0) * 1.000001);
     var petalMesh = createPetalMesh();
-    petalMesh.rotation.y = THREE.Math.degToRad(j * 360);
+    petalMesh.rotation.y = THREE.Math.degToRad(rotationAmount * 360);
     petals.push();
     app.scene.add(petalMesh);
   }
