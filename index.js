@@ -39,7 +39,7 @@ domReady(function(){
   var petals = [];
   var petalCount = 40;
   var curveAmount = 0.4;
-  var layers = 4.0;
+  var layers = 6.0;
 
   // shader
   var shaderMaterial = new THREE.ShaderMaterial({
@@ -72,7 +72,8 @@ domReady(function(){
   for (var i = 0; i < petalCount; i++) {
     var j = i / petalCount;
     var rotationAmount = j * layers;
-    curveAmount = 0.1 + (Math.pow(j, 2.0) * 1.000001);
+    //curveAmount = 0.1 + (Math.pow(j, 2.0) * 1.000001);
+    curveAmount = 0.6 + (Math.log(j) * 0.2);
     var petalMesh = createPetalMesh();
     petalMesh.rotation.y = THREE.Math.degToRad(rotationAmount * 360);
     petals.push();
