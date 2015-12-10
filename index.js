@@ -50,34 +50,15 @@ domReady(function(){
       side: THREE.DoubleSide
   });
 
-  var paramFunction1 = function (u, v) {
-            var u = (u * Math.PI) - Math.PI;
-            // var v = (v * Math.PI / 2.0) - Math.PI;
-            var v = (v * Math.PI) - Math.PI;
+  var pedalFunc = function (u, v) {
+            var petalLength = 2.0;
+            var x = Math.sin((u - 1.0) * 2.0) * Math.sin((v - 0.5) * petalLength);
 
-            // var u = (u * 2 * Math.PI) - Math.PI;
-            // var v = (v * 2 * Math.PI) - Math.PI;
-
-            // var x = Math.sin(u) * Math.sin(v);
-            var y = Math.cos(v) * Math.sin(v) + 0.5;
-            var x = -Math.sin(u) * Math.sin(v);
-            // var y = Math.pow(v, 2.0) * 0.2;
-
-            // var x = -Math.sin(u) * Math.sin(v) + (v * 0.25);
-            // var y = Math.pow(v, 2.0) * 0.2;
-
-            var y = Math.cos(v) * Math.sin(v) + 0.5;
-            var x = -Math.sin(u) * Math.sin(v);
-            var z = -Math.cos(v) + 1.0;
-
-            // var y = Math.cos(v) * Math.sin(v) + 0.5;
-            // var x = -Math.sin(u) * Math.sin(v);
-            // var z = -Math.cos(v) + 1.0;
-
-            return new THREE.Vector3(x, y, z);
+            return new THREE.Vector3(x * 0.2, u, 0);
+            // return new THREE.Vector3(x, y, z);
         };
 
-  var geom = new THREE.ParametricGeometry(paramFunction1, 100, 100);
+  var geom = new THREE.ParametricGeometry(pedalFunc, 100, 100);
 
 
   var material = new THREE.MeshLambertMaterial({
