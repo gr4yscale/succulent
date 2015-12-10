@@ -53,8 +53,8 @@ domReady(function(){
   var pedalFunc = function (u, v) {
             var petalLength = 2.0;
             var x = Math.sin((u - 1.0) * 2.0) * Math.sin((v - 0.5) * petalLength);
-
-            return new THREE.Vector3(x * 0.2, u, 0);
+            var curve = (Math.pow(u, 0.5)) + Math.sin((u * 2.5) * 4.0);
+            return new THREE.Vector3(x * 0.2, u, curve);
             // return new THREE.Vector3(x, y, z);
         };
 
