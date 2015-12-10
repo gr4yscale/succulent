@@ -50,27 +50,25 @@ domReady(function(){
       side: THREE.DoubleSide
   });
 
-  var pedalFunc = function (u, v) {
+  var petalFunc = function (u, v) {
             var petalLength = 2.0;
-            var petalWidth = 0.4;
-            var curve = Math.pow(u * 4.0, 0.3) * 0.5; // * (Math.pow(u, 0.9));
-            var x = Math.sin((u - 1.0) * 2.0) * Math.sin((v - 0.5) * petalLength);
-            //var curve = (Math.pow(u, 0.2)) + Math.sin((u * 0.1) * 4.0);
-            return new THREE.Vector3(x * petalWidth, u, curve);
-            // return new THREE.Vector3(x, y, z);
+            var petalWidth = 0.9;
+            var curveAmount = 0.5;
+            var curve = Math.pow(u * 4.0, 0.3) * curveAmount; // * (Math.pow(u, 0.9));
+            var petalOutline = (Math.sin((u - 1.5) * 2.0) * Math.sin((v - 0.5) * Math.sin((u + 2.14))) * petalLength);
+            return new THREE.Vector3(petalOutline * petalWidth, u * petalLength, curve);
         };
 
-  var geom = new THREE.ParametricGeometry(pedalFunc, 100, 100);
+  var geom = new THREE.ParametricGeometry(petalFunc, 100, 100);
 
 
   var material = new THREE.MeshLambertMaterial({
                   color: 0xFF333FF,
                   side: THREE.DoubleSide,
                   shading: THREE.SmoothShading,
-                  wireframe: true
                 });
 
-  var mesh = new THREE.Mesh(geom, material);
+  var mesh = new THREE.Mesh(geom, shaderMaterial);
   mesh.position.x = 0;
   mesh.position.y = 0;
   mesh.position.z = 0;
