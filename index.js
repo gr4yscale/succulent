@@ -54,7 +54,7 @@ domReady(function(){
 
 
   var petalFunc = function (u, v) {
-            var petalLength = 2.0;
+            var petalLength = 1.6;
             var petalWidth = 0.6;
             var curveAmount = 0.5;
             var curve = Math.pow(u * 4.0, 0.3) * curveAmount; // * (Math.pow(u, 0.9));
