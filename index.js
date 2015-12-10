@@ -99,7 +99,7 @@ domReady(function(){
   var helper = new THREE.BoundingBoxHelper(mesh, 0xff0000);
   helper.update();
   app.scene.add(helper);
-  
+
   app.scene.add(mesh);
 
 
@@ -108,30 +108,6 @@ domReady(function(){
 
   app.scene.add(sphereMesh);
 
-
-  // // cubes
-  // var cubes = [];
-  // var numCubes = 10;
-
-  // for ( i = 1; i < numCubes; i ++ ) {
-  //   var width = 24 - ((24 / numCubes) * i);
-
-  //   var geometry = new THREE.BoxGeometry( width, 0.1, width);
-  //   var material = new THREE.MeshLambertMaterial({
-  //                   color: 0xcc3333a,
-  //                   side: THREE.DoubleSide,
-  //                   shading: THREE.SmoothShading
-  //                 });
-
-  //   var cube = new THREE.Mesh( geometry, material );
-
-  //   cube.position.y = 0.2 * i;
-
-  //   app.scene.add(cube);
-  //   cubes.push(cube);
-  // }
-
- 
   // render loop
 
   var tickCounter = 0;
@@ -139,23 +115,6 @@ domReady(function(){
     tickCounter += (time / params.speed);
 
     shaderMaterial.uniforms.iGlobalTime.value = tickCounter;
-
-    // for (var i = (numCubes - 1); i > 0; i-- ) {
-
-    //   var cube = cubes[i-1];
-
-    //   cube.rotation.y += ((Math.sin(tickCounter) * (i / numCubes) * params.twistSpeed) - params.rotationSpeed);
-    //   cube.scale.x = params.width;
-    //   cube.scale.z = params.width;
-    //   cube.scale.y = params.boxThickness;
-    //   cube.position.y = params.height * i;
-
-    //   // colors!
-    //   //var hue = (i / numCubes) * params.hueRange - params.hueOffset;
-    //   //cube.material.color.setHSL(hue, 1.0, 0.5);
-    //   cube.material.opacity = params.opacity;
-    // }
-
     light.position.set( 0, params.lightYPosition, 0);
   });
 
