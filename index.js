@@ -52,9 +52,11 @@ domReady(function(){
 
   var pedalFunc = function (u, v) {
             var petalLength = 2.0;
+            var petalWidth = 0.4;
+            var curve = Math.pow(u * 4.0, 0.3) * 0.5; // * (Math.pow(u, 0.9));
             var x = Math.sin((u - 1.0) * 2.0) * Math.sin((v - 0.5) * petalLength);
-            var curve = (Math.pow(u, 0.5)) + Math.sin((u * 2.5) * 4.0);
-            return new THREE.Vector3(x * 0.2, u, curve);
+            //var curve = (Math.pow(u, 0.2)) + Math.sin((u * 0.1) * 4.0);
+            return new THREE.Vector3(x * petalWidth, u, curve);
             // return new THREE.Vector3(x, y, z);
         };
 
@@ -64,10 +66,11 @@ domReady(function(){
   var material = new THREE.MeshLambertMaterial({
                   color: 0xFF333FF,
                   side: THREE.DoubleSide,
-                  shading: THREE.SmoothShading
+                  shading: THREE.SmoothShading,
+                  wireframe: true
                 });
 
-  var mesh = new THREE.Mesh(geom, shaderMaterial);
+  var mesh = new THREE.Mesh(geom, material);
   mesh.position.x = 0;
   mesh.position.y = 0;
   mesh.position.z = 0;
@@ -102,15 +105,15 @@ domReady(function(){
 
   // params GUI
 
-  datgui.add(params, "speed", 10, 2000);
-  datgui.add(params, 'opacity', 0.1, 1);
-  datgui.add(params, 'width', 0.001, 10);
-  datgui.add(params, 'height', 0.02, 3).step(0.01);
-  datgui.add(params, 'boxThickness', 0.01, 10);
-  datgui.add(params, 'hueRange', 0.0, 1);
-  datgui.add(params, 'hueOffset', 0, 1).step(0.01);
-  datgui.add(params, 'twistSpeed', 0.0, 0.08);
-  datgui.add(params, 'rotationSpeed', 0.0, 0.1).step(0.01);
-  datgui.add(params, 'lightYPosition', 0.01, 60);
+  //datgui.add(params, "speed", 10, 2000);
+  //datgui.add(params, 'opacity', 0.1, 1);
+  //datgui.add(params, 'width', 0.001, 10);
+  //datgui.add(params, 'height', 0.02, 3).step(0.01);
+  //datgui.add(params, 'boxThickness', 0.01, 10);
+  //datgui.add(params, 'hueRange', 0.0, 1);
+  //datgui.add(params, 'hueOffset', 0, 1).step(0.01);
+  //datgui.add(params, 'twistSpeed', 0.0, 0.08);
+  //datgui.add(params, 'rotationSpeed', 0.0, 0.1).step(0.01);
+  //datgui.add(params, 'lightYPosition', 0.01, 60);
 
 });
