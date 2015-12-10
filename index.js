@@ -36,6 +36,8 @@ domReady(function(){
   light.position.set(-10, -10, -10);
   app.scene.add(light);
 
+  var petals = [];
+  var petalCount = 8;
 
   // shader
   var shaderMaterial = new THREE.ShaderMaterial({
@@ -50,16 +52,37 @@ domReady(function(){
       side: THREE.DoubleSide
   });
 
+
   var petalFunc = function (u, v) {
             var petalLength = 2.0;
-            var petalWidth = 0.9;
+            var petalWidth = 0.6;
             var curveAmount = 0.5;
             var curve = Math.pow(u * 4.0, 0.3) * curveAmount; // * (Math.pow(u, 0.9));
             var petalOutline = (Math.sin((u - 1.5) * 2.0) * Math.sin((v - 0.5) * Math.sin((u + 2.14))) * petalLength);
             return new THREE.Vector3(petalOutline * petalWidth, u * petalLength, curve);
         };
 
-  var geom = new THREE.ParametricGeometry(petalFunc, 100, 100);
+  var createPetalMesh = function() {
+    var geom = new THREE.ParametricGeometry(petalFunc, 40, 40);
+    var mesh = new THREE.Mesh(geom, shaderMaterial);
+    return mesh;
+  }
+
+  for (var i = 0; i < petalCount; i++) {
+    var j = i / petalCount;
+    var petalMesh = createPetalMesh();
+    petalMesh.rotation.y = THREE.Math.degToRad(j * 360);
+    petals.push();
+    app.scene.add(petalMesh);
+  }
+
+  app.camera.position.x = 0;
+  app.camera.position.y = 0;
+  app.camera.position.z = -1;
+
+  //var helper = new THREE.BoundingBoxHelper(mesh, 0xff0000);
+  //helper.update();
+  //app.scene.add(helper);
 
 
   var material = new THREE.MeshLambertMaterial({
@@ -67,23 +90,6 @@ domReady(function(){
                   side: THREE.DoubleSide,
                   shading: THREE.SmoothShading,
                 });
-
-  var mesh = new THREE.Mesh(geom, shaderMaterial);
-  mesh.position.x = 0;
-  mesh.position.y = 0;
-  mesh.position.z = 0;
-
-  app.camera.position.x = 0;
-  app.camera.position.y = 0;
-  app.camera.position.z = -1;
-  // mesh.position.x = 0.2;
-
-  var helper = new THREE.BoundingBoxHelper(mesh, 0xff0000);
-  helper.update();
-  app.scene.add(helper);
-
-  app.scene.add(mesh);
-
 
   var sphereGeom = new THREE.SphereGeometry(0.01, 10, 10);
   var sphereMesh = new THREE.Mesh(sphereGeom, material);
