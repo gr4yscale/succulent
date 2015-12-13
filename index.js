@@ -95,7 +95,9 @@ domReady(function(){
       side: THREE.DoubleSide
   });
 
-  
+  console.log(shaderMaterial);
+  console.log(shaderMaterial);
+
   var material = new THREE.MeshLambertMaterial({
                   color: 0xFF333FF,
                   side: THREE.DoubleSide,
@@ -112,7 +114,7 @@ domReady(function(){
 
   var createPetalMesh = function() {
     var geom = new THREE.ParametricGeometry(petalFunc, 20, 20);
-    var mesh = new THREE.Mesh(geom, material);
+    var mesh = new THREE.Mesh(geom, shaderMaterial);
     return mesh;
   }
 
@@ -120,7 +122,7 @@ domReady(function(){
     var j = i / petalCount;
     var rotationAmount = j * layers;
     //curveAmount = 0.1 + (Math.pow(j, 2.0) * 1.000001);
-    curveAmountA = curveAmountC + (Math.log(j) * curveAmountB);
+    curveAmountA = Math.abs(curveAmountC + (Math.log(j) * curveAmountB));
     console.log(curveAmountA);
     var petalMesh = createPetalMesh();
 
