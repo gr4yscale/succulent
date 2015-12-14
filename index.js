@@ -28,8 +28,8 @@ domReady(function(){
       antialias: true,
       alpha: false
     },
-    position: new THREE.Vector3(0,1.4,-1.75),
-    target: new THREE.Vector3(0,0.5,0)
+    //position: new THREE.Vector3(0,1.4,-1.75),
+    //target: new THREE.Vector3(0,0.5,0)
   });
 
   var datgui = new dat.GUI();
