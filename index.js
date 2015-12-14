@@ -28,8 +28,8 @@ domReady(function(){
       antialias: true,
       alpha: false
     },
-    position: new THREE.Vector3(0,1.4,-1.75),
-    target: new THREE.Vector3(0,0.5,0)
+    position: new THREE.Vector3(0, 0.5,-.5),
+    //target: new THREE.Vector3(0,0.5,0)
   });
 
   var datgui = new dat.GUI();
@@ -145,10 +145,10 @@ domReady(function(){
   //helper.update();
   //app.scene.add(helper);
 
-  var sphereGeom = new THREE.SphereGeometry(0.01, 10, 10);
-  var sphereMesh = new THREE.Mesh(sphereGeom, material);
+  //var sphereGeom = new THREE.SphereGeometry(0.01, 10, 10);
+  //var sphereMesh = new THREE.Mesh(sphereGeom, material);
 
-  app.scene.add(sphereMesh);
+  //app.scene.add(sphereMesh);
 
   // render loop
 
