@@ -12,9 +12,9 @@ void main() {
   float stripesB = sin(vUv.x * 10.) * 4.0;
 
   vec3 base;
-  base.x = 0.8 + (sin(vUv.y * 100.) * 0.5);
-  base.y = vUv.x;
-  base.z = vUv.y + sin(iGlobalTime);
+  base.x = (vUv.x - 0.5) + 0.3; //snoise2(vUv.yx + (stripesA * 0.01)) * stripesA + 100.;
+  base.y = (vUv.x - 0.5) + 0.0;
+  base.z = (vUv.x - 0.5) + 0.4;
   
 //  base.y = snoise2(vUv.yx + (stripesA * 0.01) + iGlobalTime / 10.) * stripesB,
 //  base.z = snoise2(vUv * 100.) * (stripesB * sin(stripesB));
