@@ -37,12 +37,12 @@ domReady(function(){
   var light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
   light.position.set(0, 40, 80);
 
-  var lightB = new THREE.DirectionalLight(0xFFFFFF, 1.0); 
+  var lightB = new THREE.DirectionalLight(0xFFFFFF, 1.0);
   lightB.position.set(1, 20, 1);
 
   lightB.castShadow = true;
   lightB.shadowCameraVisible = true;
-  
+
   lightB.shadowCameraNear = 1;
   lightB.shadowCameraFar = 1000;
   lightB.shadowCameraLeft = -1000;
@@ -95,8 +95,8 @@ domReady(function(){
       side: THREE.DoubleSide
   });
 
-  console.log(shaderMaterial);
-  console.log(shaderMaterial);
+  // console.log(shaderMaterial);
+  // console.log(shaderMaterial);
 
   var material = new THREE.MeshLambertMaterial({
                   color: 0xFF333FF,
@@ -123,7 +123,7 @@ domReady(function(){
     var rotationAmount = j * layers;
     //curveAmount = 0.1 + (Math.pow(j, 2.0) * 1.000001);
     curveAmountA = Math.abs(curveAmountC + (Math.log(j) * curveAmountB));
-    console.log(curveAmountA);
+    // console.log(curveAmountA);
     var petalMesh = createPetalMesh();
 
     petalMesh.rotation.y = THREE.Math.degToRad(rotationAmount * 360);
@@ -157,6 +157,7 @@ domReady(function(){
     tickCounter += (time / params.speed);
 
     shaderMaterial.uniforms.iGlobalTime.value = tickCounter;
+    // console.log(app.camera.position);
     //light.position.set( 0, params.lightYPosition, 0);
   });
 

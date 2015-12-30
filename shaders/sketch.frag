@@ -1,10 +1,25 @@
 precision mediump float;
 
 #pragma glslify: cnoise2 = require(glsl-noise/classic/2d)
-#pragma glslify: snoise2 = require(glsl-noise/simplex/2d) 
+#pragma glslify: snoise2 = require(glsl-noise/simplex/2d)
 
 uniform float iGlobalTime;
 varying vec2 vUv;
+varying vec3 v_normal;
+varying vec3 v_position;
+varying vec3 v_vertPosition;
+
+const vec4 diffuseColor = vec4(1.0, 1.0, 1.0, 1.0);
+
+const vec4 specularColor = vec4(1.0, 1.0, 1.0, 1.0);
+const float shininess = 24.0;
+
+//const vec3 lightDirection = vec3(1.0,1.0,0.8);
+const vec3 lightDirection = vec3(1.0,1.0,0.8);
+const vec3 lightPosition = vec3(4.0, 0.85, 1.5);
+
+//http://stackoverflow.com/a/25735581
+//https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_shading_model
 
 void main() {
   float color = cnoise2(vUv.yx * (cos(iGlobalTime * 0.6) * 80.)) * 2.0;
@@ -12,23 +27,27 @@ void main() {
   float stripesB = sin(vUv.x * 10.) * 4.0;
 
   vec3 base;
-  base.x = (vUv.x - 0.5) + 0.3; //snoise2(vUv.yx + (stripesA * 0.01)) * stripesA + 100.;
-  base.y = (vUv.x - 0.5) + 0.0;
-  base.z = (vUv.x - 0.5) + 0.4;
-  
-//  base.y = snoise2(vUv.yx + (stripesA * 0.01) + iGlobalTime / 10.) * stripesB,
-//  base.z = snoise2(vUv * 100.) * (stripesB * sin(stripesB));
+  base.x = 0.8 + (sin(vUv.y * 100.) * 0.5);
+  base.y = vUv.x;
+  base.z = vUv.y + sin(iGlobalTime);
 
-//  vec3 smoothColors;
-//  smoothColors.x = 0.0;
-//  smoothColors.y = snoise2(vUv + 100.);
-//  smoothColors.z = snoise2(vUv * 2.5);
+  ///////// LIGHTING
 
-//  vec3 spots;
-//  spots.x = sin(vUv.x * 100.) + sin(vUv.y * 100.);
+  // Diffuse
+  float d = dot(v_normal,lightDirection);
 
-  gl_FragColor = vec4( base.x, base.y, base.z, 1.0);
- 
-  //gl_FragColor = vec4( base.x, (base.y * 0.3) + (smoothColors.y * 0.05), (base.z * 0.2) + (smoothColors.z * 0.5), 1. );
-  //gl_FragColor = vec4( base.x + (spots.x * 2.0) + 1.0, (base.y * 0.2) + (smoothColors.y * 0.9) * spots.x, base.z - (smoothColors.z * 1.4) * spots.x, 1.);
+  // Specular
+
+  vec3 viewDirection = normalize(-v_vertPosition);
+
+  vec3 halfVector = normalize(lightDirection + viewDirection);
+  float nDoth = dot(v_normal, halfVector);
+  float s = pow(nDoth, shininess);
+
+  //vec4 lightingPower = (d * diffuseColor) + (s * specularColor);
+  vec4 lightingPower = (s * specularColor);
+
+  vec4 finalColor = vec4(base.xyz, 1.0) * lightingPower;
+
+  gl_FragColor = lightingPower;
 }
